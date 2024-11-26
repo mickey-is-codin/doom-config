@@ -85,31 +85,38 @@
   :init
   (map! :leader
         :prefix "n"
-        :desc "org-roam" "l" #'org-roam-buffer-toggle
-        :desc "org-roam-node-insert" "i" #'org-roam-node-insert
-        :desc "org-roam-node-find" "f" #'org-roam-node-find
-        :desc "org-roam-ref-find" "r" #'org-roam-ref-find
-        :desc "org-roam-show-graph" "g" #'org-roam-graph
-        :desc "org-roam-capture" "c" #'org-roam-capture)
+        :desc "Toggle buffer" "l" #'org-roam-buffer-toggle
+        :desc "Insert node" "i" #'org-roam-node-insert
+        :desc "Find node" "f" #'org-roam-node-find
+        :desc "Find ref" "r" #'org-roam-ref-find
+        :desc "Show graph" "g" #'org-roam-graph
+        :desc "Capture" "c" #'org-roam-capture)
   (setq org-roam-directory (file-truename "~/.org/org-roam/")
         org-roam-database-connector 'sqlite-builtin
         org-roam-db-gc-threshold most-positive-fixnum
         org-id-link-to-org-use-id t)
+
   :config
   (org-roam-db-autosync-mode +1)
   (setq org-roam-node-display-template
         (concat "${title:*} " (propertize "${tags:20}" 'face 'org-tag)))
   (setq org-roam-capture-templates
-        '(("d" "default" plain
+        '(("c" "Canal")
+          ("cd" "default" plain
            "%?"
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :if-new (file+head "canal/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
-          ("t" "asana ticket" plain (file "~/.org/templates/asana-ticket-template.org")
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :asana-ticket:\n")
+          ("ct" "asana ticket" plain (file "~/.org/templates/asana-ticket-template.org")
+           :if-new (file+head "canal/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :asana-ticket:\n")
            :unnarrowed t)
-          ("b" "bug" plain (file "~/.org/templates/bug-template.org")
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :bug:\n")
+          ("cb" "bug" plain (file "~/.org/templates/bug-template.org")
+           :if-new (file+head "canal/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :bug:\n")
            :unnarrowed t)
-          ("j" "daily" plain (file "~/.org/templates/daily-template.org")
-           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :daily:\n")
+          ("cj" "daily" plain (file "~/.org/templates/daily-template.org")
+           :if-new (file+head "canal/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :daily:\n")
+           :unnarrowed t)
+          ("p" "Personal")
+          ("pd" "default" plain
+           "%?"
+           :if-new (file+head "personal/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t))))
